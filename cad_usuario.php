@@ -43,7 +43,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/css.css">
+    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
     <title><?php echo $title; ?></title>
+    <style>
+        body{
+            background-image: url('img/cadastropessoa.jpg');
+        }
+    </style>
+
     <script>
        function validaSenha (input){ 
             if (input.value != document.getElementById('senha').value) {
@@ -56,20 +64,26 @@
     <script type="text/javascript" src="ajax/func.js"></script>
 </head>
 <body>
+    <?php 
+    if (isset($_SESSION['logado']) && $_SESSION['logado'] == "TRUE"){
+        include 'menu_loged.php';   
+    }else{
+        include 'menu.php';
+    } ?>
+    <br>
+    <div class="container">
+  <div class="central">
+  <div align='left'>
     <form action="acaoUsuario.php" id="form" method="post">
-    <fieldset>
-        <legend><?php echo $title; ?></legend>
+        <h1><?php echo $title; ?></h1>
         <input type="hidden" name="codigo" id="codigo" value="<?php if ($acao == "editar") echo $dados['codigo']; else echo "0";?>">  
-
-        <label for="nome">Nome</label>     
+            
         <input type="text" name="nome" id="nome" placeholder="Nome" value="<?php if ($acao == "editar") echo $dados['nome'];?>" required><br>
-
-        <label for="cpf">CPF</label>     
+            
         <input type="text" name="cpf" id="cpf" placeholder="CPF" value="<?php if ($acao == "editar") echo $dados['cpf'];?>" required><br>
-
-        <label for='estado'>Estado</label>
+            
         <select name="estado" id="estado" onchange="cidadePorEstado();">
-        <option></option>
+        <option>Estado</option>
         <?php 
             $sql = 'SELECT * FROM '.$tb_estado.' ORDER by nome';
             $result = mysqli_query($conexao,$sql);
@@ -80,11 +94,10 @@
                     echo ' selected';
                 echo '>'.$row['nome'].'</option>';
             }
-        ?></select>
+        ?></select><br>
 
-        <label for="cidade">Cidade</label>
         <select name="cidade" id="cidade" required> 
-        <option></option>   
+        <option>Cidade</option>   
         <?php 
             if ($acao == "editar") {
                 $sql = 'SELECT * FROM '.$tb_cidade.' WHERE estado='.$codigo_estado.' ORDER by nome';
@@ -99,38 +112,28 @@
             }
         ?>
         </select><br>
-
-        <label for="senha">Senha</label>     
         <input type="password" name="senha" id="senha" placeholder="Senha" required><br>
-
-        <label for="senhaR">Repita sua senha</label>     
+           
         <input type="password" name="senhaR" id="senhaR" placeholder="Repita a sua senha" oninput="validaSenha(this)" required><br>
-
-        <label for="apelido">Apelido</label>     
+            
         <input type="text" name="apelido" id="apelido" placeholder="Apelido" value="<?php if ($acao == "editar") echo $dados['apelido'];?>" required><br>
-
+            
         <select name="sexo" id="sexo" required>
             <option value="M">Masculino</option>
             <option value="F">Feminino</option>
         </select>
-
-        <label for="email">E-mail</label>     
+        <br>
         <input type="email" name="email" id="email" placeholder="E-mail" value="<?php if ($acao == "editar") echo $dados['email'];?>" required><br>
-
-        <label for="nascimento">Nascimento</label>     
+            
         <input type="date" name="nascimento" id="nascimento" placeholder="Nascimento" value="<?php if ($acao == "editar") echo date("Y-m-d", strtotime($dados['nascimento']));?>" required><br>
-
-        <label for="telefone">Telefone</label>     
+            
         <input type="text" name="telefone" id="telefone" placeholder="Telefone" value="<?php if ($acao == "editar") echo $dados['telefone'];?>" required><br>
         <br><br>
         <button name="acao" value="salvar" id="acao" 
         type="submit">Salvar</button>
-        <?php if (isset($_GET['acao']) && $_GET['acao']=="editar") {
-            echo "<a href='login.php'>Voltar ao home</a>";
-        }else{
-            echo "<a href='login.php'>Fazer login</a>";
-        } ?>
-        </fieldset>
     </form>
+</div>
+</div>
+</div>
 </body>
 </html>

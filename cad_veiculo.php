@@ -27,21 +27,32 @@
 ?>
 <html>
 <head>
+    <style>
+        body{
+            background-image: url('img/cad_veiculo.jpg');
+        }
+    </style>
     <meta charset="UTF-8">
     <title><?php echo $title; ?></title>
     <script type="text/javascript" src="ajax/func.js"></script>
+    <link rel="stylesheet" href="css/css.css">
+    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
+    <?php 
+        include 'menu_loged.php';
+    ?>
+    <br>
+    <div class="container">
+        <div class="central">
     <form action="acaoVeiculo.php" id="form" method="post">
-    <fieldset>
-        <legend><?php echo $title; ?></legend>
+        <h1 class="cad_carro"><?php echo $title; ?></h1>
         <input type="hidden" name="codigo" id="codigo" value="<?php if ($acao == "editar") echo $dados['codigo']; else echo "0";?>">  
 
-        <label for="nome">Nome</label>     
-        <input type="text" name="nome" id="nome" placeholder="Nome" value="<?php if ($acao == "editar") echo $dados['nome'];?>"><br>
+        <input type="text" name="nome" id="nome" placeholder="Nome automóvel" value="<?php if ($acao == "editar") echo $dados['nome'];?>"><br>
 
-        <label for="marca">marca</label>
         <select name="marca" id="marca">
+        <option>Marca</option>
         <?php 
             $sql = 'SELECT * FROM '.$tb_marca.' ORDER by nome';
             $result = mysqli_query($conexao,$sql);
@@ -55,9 +66,8 @@
         ?>      
         </select><br>
 
-        <label for='estado'>Estado</label>
         <select name="estado" id="estado" onchange="cidadePorEstado();">
-        <option></option>
+        <option>Estado</option>
         <?php 
             $sql = 'SELECT * FROM '.$tb_estado.' ORDER by nome';
             $result = mysqli_query($conexao,$sql);
@@ -68,11 +78,10 @@
                     echo ' selected';
                 echo '>'.$row['nome'].'</option>';
             }
-        ?></select>
+        ?></select><br>
 
-        <label for="cidade">Cidade</label>
         <select name="cidade" id="cidade" required> 
-        <option></option>   
+        <option>Cidade</option>   
         <?php 
             if ($acao == "editar") {
                 $sql = 'SELECT * FROM '.$tb_cidade.' WHERE estado='.$codigo_estado.' ORDER by nome';
@@ -88,34 +97,26 @@
         ?>
         </select><br>
 
-        <label for="proprietario">Proprietário</label>
-        <input type="hidden" name="proprietario" id="proprietario" value=<?php echo $_SESSION['codigo']; ?>><br><?php echo $_SESSION['nome']; ?><br>
+        <input type="hidden" name="proprietario" id="proprietario" value="<?php echo $_SESSION['codigo']; ?>">
+        <input type='text' value="<?php echo $_SESSION['nome']; ?>" disabled><br>
 
-        <label for="fabricacao">Fabricação</label>     
-        <input type="text" name="fabricacao" id="fabricacao" placeholder="Fabricação" value="<?php if ($acao == "editar") echo $dados['fabricacao'];?>"><br>
+        <input type="text" name="fabricacao" id="fabricacao" placeholder="Ano de fabricação" value="<?php if ($acao == "editar") echo $dados['fabricacao'];?>"><br>
 
-        <label for="modelo_ano">Modelo do ano</label>     
-        <input type="text" name="modelo_ano" id="modelo_ano" placeholder="Modelo do ano" value="<?php if ($acao == "editar") echo $dados['modelo_ano'];?>"><br>
+        <input type="text" name="modelo_ano" id="modelo_ano" placeholder="Ano do modelo" value="<?php if ($acao == "editar") echo $dados['modelo_ano'];?>"><br>
 
-        <label for="valor">Valor</label>     
         <input type="text" name="valor" id="valor" placeholder="Valor" value="<?php if ($acao == "editar") echo $dados['valor'];?>"><br>
 
-        <label for="quilometragem">Quilometragem</label>     
         <input type="text" name="quilometragem" id="Quilometragem" placeholder="quilometragem" value="<?php if ($acao == "editar") echo $dados['quilometragem'];?>"><br>
 
-        <label for="n_chassi">Número do chassi</label>     
         <input type="text" name="n_chassi" id="n_chassi" placeholder="Número do chassi" value="<?php if ($acao == "editar") echo $dados['n_chassi'];?>"><br>
 
-        <label for="descricao">Descrição</label>
         <textarea name="descricao" id="descricao" placeholder="Descrição"><?php if ($acao == "editar") echo $dados['descricao'];?></textarea>
 
         <br><br>
         <button name="acao" value="salvar" id="acao" 
         type="submit">Salvar</button>
-        <a href="list_veiculo.php">Consultar</a><br>
-        <a href="loged.php">Voltar ao home</a><br>
-        <a href="cad_marca.php">Cadastrar marca</a><br>       
-    </fieldset>
     </form>
+    </div>
+</div>
 </body>
 </html>

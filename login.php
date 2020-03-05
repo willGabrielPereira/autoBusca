@@ -39,25 +39,37 @@
     $title = "Fazer login";
 ?>
 <head>
-	<link type="text/css"  href="css/css.css" />
+	<link rel="stylesheet" href="css/css.css" />
+	<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
 	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title></title>
+	<style>
+        body{
+            background-image: url('img/loged.jpg');
+        }
+    </style>
 </head>
 <body>
+	<?php 
+    include 'menu.php';
+  ?>
+  <br>
+	<div class="container">
+  <div class="central">
+  <div align='left'>
 	<form action="login.php" method="post">
-		<fieldset>
-			<legend>Login</legend>
+			<h1>Login</h1>
+			<input type="text" name="apelido" id="apelido" placeholder="Apelido"><br>
 
-			<label for='login'>Apelido</label>
-			<input type="text" name="apelido" id="apelido" placeholder="apelido"><br>
+			<input type="password" name="senha" id="senha" placeholder="Senha"><br>
 
-			<label for="senha">Senha</label>
-			<input type="password" name="senha" id="senha" placeholder="senha"><br>
-
-			<input type="submit" name="acao" id="acao" value="login">
-			<p><a href="cad_usuario.php">Não tenho conta</a></p>
-			<p><a href="index.php">Voltar para principal</a></p>
-		</fieldset>
+			<button type="submit" name="acao" id="acao" value="login">Login</button><br>
+			<button class="botao_inicial"><a href="cad_usuario.php">Não tenho conta</a></button>
+			<button class="botao_inicial"><a href="index.php">Esqueci minha senha</a></button>
 	</form>
+  </div>
+	</div>
+  </div>
 </body>
 </html>
